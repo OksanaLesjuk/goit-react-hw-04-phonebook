@@ -2,7 +2,10 @@ import Contact from 'components/Contact/Contact';
 
 import { ContactListStyling } from './ContactList.styled';
 
-const ContactList = ({ contacts, filteredContacts, deleteContacts }) => {
+const ContactList = ({ contacts, filter, deleteContacts }) => {
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
   return (
     <ContactListStyling>
       {(filteredContacts ?? contacts).map(contact => (
