@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { nanoid } from 'nanoid';
 import ContactList from './ContactList/ContactList';
@@ -39,6 +39,14 @@ export const App = () => {
     setContacts(prev => prev.filter(contact => contact.id !== id));
   };
 
+  //використовуємо useMemo лише у складних і великих сортуваннях,щоб не рендерити зайвий раз, тут для практики
+  const filteredContacts = useMemo(() => {
+    if (!filter) return;
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }, [filter, contacts]);
+
   return (
     <>
       <div>
@@ -52,6 +60,7 @@ export const App = () => {
           contacts={contacts}
           deleteContacts={deleteContacts}
           filter={filter}
+          filteredContacts={filteredContacts}
         />
       </div>
     </>
